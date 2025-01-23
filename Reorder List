@@ -1,0 +1,40 @@
+// https://leetcode.com/problems/reorder-list/description/
+
+void reorderList(ListNode* head) { // Time, Space complexity : O(n)
+  
+  // Handling edge case for empty, one, or two nodes lists
+  if (! head || ! head->next || ! head->next->next) return;
+  
+  // a vector of integer to contain nodes' values
+  vector<int> valuesOfNodes;
+  
+  ListNode* currentNode = head;
+  
+  int length = 0;
+  
+  // Gathering nodes' values
+  while (currentNode){
+    
+    length++;
+    
+    valuesOfNodes.push_back(currentNode->val);
+    
+    currentNode = currentNode->next;
+  }
+  
+  currentNode = head;
+  
+  // Exchange nodes' values
+  for (int i = 0; i < length/2; i++){
+    
+    currentNode->val = valuesOfNodes.at(i);
+    currentNode = currentNode->next;
+    
+    currentNode->val = valuesOfNodes.at(length-1 - i);
+    currentNode = currentNode->next;
+  }
+  
+  // fill the last node by mid-point if it exists (for odd length linked-list)
+  if (length%2)
+    currentNode->val = valuesOfNodes.at(length/2);
+}
