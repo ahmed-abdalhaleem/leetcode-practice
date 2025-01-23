@@ -1,0 +1,42 @@
+// https://leetcode.com/problems/group-anagrams/
+
+int seachInMap(string s, vector<string>& m){ // O(n.m) !!!
+    
+    for(int i = 0; i < m.size(); i++)
+        if(s == m.at(i))
+            return i;
+    
+    return -1;
+}
+
+vector<vector<string>> groupAnagrams(vector < string > & strs) {
+    
+    if (strs.size() <= 1)
+        return vector < vector < string >> {strs};
+    
+    vector<vector<string>> res {{strs.at(0)}};
+    string sorted = strs.at(0);
+    sort(sorted.begin(), sorted.end());
+
+    vector<string> m {sorted}; // for mapping
+    
+    
+    for(int i = 1; i < strs.size(); i++){ // O(n)
+        
+        string item = strs.at(i);
+        sorted = item;
+        sort(sorted.begin(), sorted.end()); // O(m log(m))
+        
+        int index = seachInMap(sorted, m); // O(n)
+        
+        if(index > -1){
+            res.at(index).push_back(item);
+            continue;
+        }
+        
+        m.push_back(sorted);
+        res.push_back({item});
+    }
+    
+    return res;
+}
